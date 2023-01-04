@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calc</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.js"
+      integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-12">
+        <div class="row m-3 align-items-center">
+          <div class="col-5">
+            <h4>Buying price</h4>
+          </div>
+          <div class="col-7">
+            <input
+              id="buy"
+              type="number"
+              class="form-control p-3 float-end text-end fw-bold fs-3"
+              name="buy"
+              value="300"
+            />
+          </div>
+        </div>
+        <div class="row m-3 align-items-center">
+          <div class="col-5">
+            <h4>Qty</h4>
+          </div>
+          <div class="col-4">
+            <input
+              id="qty"
+              type="number"
+              class="form-control p-3 float-end text-end fw-bold fs-3"
+              value="25"
+              name="qty"
+            />
+          </div>
+          <div class="col-3">
+            <input
+              id="lot"
+              type="number"
+              class="form-control p-3 float-end text-end fw-bold fs-3"
+              value="1"
+              name="lot"
+              min="1"
+            />
+          </div>
+        </div>
+        <div class="row m-3 align-items-center">
+          <div class="col-5">
+            <h4>Selling price</h4>
+          </div>
+          <div class="col-7">
+            <input
+              id="sell"
+              type="number"
+              class="form-control p-3 float-end text-end fw-bold fs-3"
+              name="sell"
+              value="340"
+            />
+          </div>
+        </div>
+        <div class="row m-3 align-items-center">
+          <div class="col-5">
+            <h4>Profit/Loss</h4>
+          </div>
+          <div class="col-7">
+            <input
+              id="margin"
+              type="number"
+              class="form-control p-3 float-end text-end fw-bold fs-3"
+              value="0"
+              name="margin"
+            />
+          </div>
+        </div>
+        <div class="d-flex justify-content-between mx-5">
+          <div><h4 id="invested"></h4></div>
+          <div id="icon"></div>
+          <div><h4 id="current"></h4></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(".form-control").on("input", () => {
+        $("#qty").val($("#lot").val() * 25);
+
+        $("#margin").val(
+          ($("#sell").val() - $("#buy").val()) * $("#qty").val()
+        );
+
+        if ($("#margin").val() < 0) $("#margin").css("color", "red");
+        else $("#margin").css("color", "lime");
+
+        $("#invested").text("Rs. " + $("#buy").val() * $("#qty").val());
+        $("#current").text("Rs. " + $("#sell").val() * $("#qty").val());
+
+        if ($("#margin").val() > 0) {
+          $("#current").css("color", "lime");
+          $("#icon")
+            .html(`<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>`);
+        } else {
+          $("#current").css("color", "red");
+          $("#icon")
+            .html(`<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>`);
+        }
+      });
+    </script>
+  </body>
+</html>
